@@ -308,7 +308,7 @@ void PublisherImpl::PublisherWriterListener::onWriterChangeReceivedByAll(
 
 bool PublisherImpl::try_remove_change(std::unique_lock<std::recursive_mutex>& lock)
 {
-    std::chrono::microseconds max_w(::TimeConv::Time_t2MicroSecondsInt64(m_att.qos.m_reliability.max_blocking_time));
+    std::chrono::microseconds max_w(TimeConv::Duration_t2MicroSecondsInt64(m_att.qos.m_reliability.max_blocking_time));
     return mp_writer->try_remove_change(max_w, lock);
 }
 

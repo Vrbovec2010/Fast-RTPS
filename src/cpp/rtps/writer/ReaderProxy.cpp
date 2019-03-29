@@ -46,7 +46,7 @@ ReaderProxy::ReaderProxy(
 {
     if(rdata.endpoint.reliabilityKind == RELIABLE)
     {
-        mp_nackSupression = new NackSupressionDuration(this,TimeConv::Time_t2MilliSecondsDouble(times.nackSupressionDuration));
+        mp_nackSupression = new NackSupressionDuration(this,TimeConv::Duration_t2MilliSecondsDouble(times.nackSupressionDuration));
     }
 
     // Use remoteLocatorList as joint unicast + multicast locators
@@ -258,7 +258,7 @@ bool ReaderProxy::mark_fragment_as_sent_for_change(const CacheChange_t* change, 
     bool allFragmentsSent = false;
     auto it = m_changesForReader.find(ChangeForReader_t(change->sequenceNumber));
 
-    bool mustWakeUpAsyncThread = false; 
+    bool mustWakeUpAsyncThread = false;
 
     if(it != m_changesForReader.end())
     {
@@ -392,7 +392,7 @@ bool ReaderProxy::requested_fragment_set(SequenceNumber_t sequence_number, const
     std::lock_guard<std::recursive_mutex> guard(*mp_mutex);
 
     // Locate the outbound change referenced by the NACK_FRAG
-    auto changeIter = std::find_if(m_changesForReader.begin(), m_changesForReader.end(), 
+    auto changeIter = std::find_if(m_changesForReader.begin(), m_changesForReader.end(),
             [sequence_number](const ChangeForReader_t& change)
             {return change.getSequenceNumber() == sequence_number;});
     if (changeIter == m_changesForReader.end())

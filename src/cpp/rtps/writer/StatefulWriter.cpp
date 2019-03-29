@@ -71,8 +71,9 @@ StatefulWriter::StatefulWriter(
         m_HBReaderEntityId= c_EntityId_ReaderLiveliness;
     else
         m_HBReaderEntityId = c_EntityId_Unknown;
-    mp_periodicHB = new PeriodicHeartbeat(this,TimeConv::Time_t2MilliSecondsDouble(m_times.heartbeatPeriod));
-    nack_response_event_ = new NackResponseDelay(this, TimeConv::Time_t2MilliSecondsDouble(m_times.nackResponseDelay));
+    mp_periodicHB = new PeriodicHeartbeat(this,TimeConv::Duration_t2MilliSecondsDouble(m_times.heartbeatPeriod));
+    nack_response_event_ =
+        new NackResponseDelay(this, TimeConv::Duration_t2MilliSecondsDouble(m_times.nackResponseDelay));
 }
 
 
@@ -732,7 +733,7 @@ bool StatefulWriter::wait_for_all_acked(const Duration_t& max_wait)
 
     if(!all_acked_)
     {
-        std::chrono::microseconds max_w(::TimeConv::Time_t2MicroSecondsInt64(max_wait));
+        std::chrono::microseconds max_w(::TimeConv::Duration_t2MicroSecondsInt64(max_wait));
         all_acked_cond_.wait_for(all_acked_lock, max_w, [&]() { return all_acked_; });
     }
 
@@ -943,7 +944,7 @@ void StatefulWriter::send_heartbeat_nts_(const std::vector<GUID_t>& remote_reade
     logInfo(RTPS_WRITER, getGuid().entityId << " Sending Heartbeat (" << firstSeq << " - " << lastSeq <<")" );
 }
 
-void StatefulWriter::send_heartbeat_piggyback_nts_(const std::vector<GUID_t>& remote_readers, 
+void StatefulWriter::send_heartbeat_piggyback_nts_(const std::vector<GUID_t>& remote_readers,
     const LocatorList_t &locators,
     RTPSMessageGroup& message_group)
 {

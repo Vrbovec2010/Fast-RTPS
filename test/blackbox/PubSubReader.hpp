@@ -173,7 +173,7 @@ class PubSubReader
 
             // By default, heartbeat period delay is 100 milliseconds.
             subscriber_attr_.times.heartbeatResponseDelay.seconds = 0;
-            subscriber_attr_.times.heartbeatResponseDelay.fraction = 4294967 * 100;
+            subscriber_attr_.times.heartbeatResponseDelay.nanosec = 100000000;
         }
 
         ~PubSubReader()
@@ -390,10 +390,10 @@ class PubSubReader
             return *this;
         }
 
-        PubSubReader& heartbeatResponseDelay(const int32_t secs, const int32_t frac)
+        PubSubReader& heartbeatResponseDelay(const int32_t secs, const int32_t nanosec)
         {
             subscriber_attr_.times.heartbeatResponseDelay.seconds = secs;
-            subscriber_attr_.times.heartbeatResponseDelay.fraction = frac;
+            subscriber_attr_.times.heartbeatResponseDelay.nanosec = nanosec;
             return *this;
         }
 

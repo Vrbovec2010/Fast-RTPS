@@ -145,7 +145,7 @@ ParameterList_t ParticipantProxyData::AllQostoParameterList()
     }
     {
         ParameterTime_t* p = new ParameterTime_t(PID_PARTICIPANT_LEASE_DURATION, PARAMETER_TIME_LENGTH);
-        p->time = m_leaseDuration;
+        p->time = m_leaseDuration.to_time();
         parameter_list.m_parameters.push_back((Parameter_t*)p);
     }
     {
