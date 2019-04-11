@@ -33,7 +33,7 @@
 #include <fastrtps/utils/TimeConversion.h>
 
 using namespace eprosima::fastrtps;
-using namespace ::rtps;
+using namespace eprosima::fastrtps::rtps;
 
 PublisherImpl::PublisherImpl(
         ParticipantImpl* p,

@@ -650,8 +650,10 @@ int32_t ParameterList::readParameterListfromCDRMsg(CDRMessage_t*msg, ParameterLi
                             return -1;
                         }
                         ParameterTime_t* p = new ParameterTime_t(PID_PARTICIPANT_LEASE_DURATION,plength);
-                        valid &= CDRMessage::readInt32(msg,&p->time.seconds);
-                        valid &= CDRMessage::readUInt32(msg,&p->time.fraction);
+                        valid &= CDRMessage::readInt32(msg, &p->time.seconds());
+                        uint32_t frac;
+                        valid &= CDRMessage::readUInt32(msg, &frac);
+                        p->time.fraction(frac);
                         IF_VALID_ADD
                     }
                 case PID_CONTENT_FILTER_PROPERTY:

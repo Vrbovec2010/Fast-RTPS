@@ -145,7 +145,7 @@ ParameterList_t ParticipantProxyData::AllQostoParameterList()
     }
     {
         ParameterTime_t* p = new ParameterTime_t(PID_PARTICIPANT_LEASE_DURATION, PARAMETER_TIME_LENGTH);
-        p->time = m_leaseDuration.to_time();
+        p->time.from_duration_t(m_leaseDuration);
         parameter_list.m_parameters.push_back((Parameter_t*)p);
     }
     {
@@ -277,7 +277,7 @@ bool ParticipantProxyData::readFromCDRMessage(CDRMessage_t* msg, bool use_encaps
                 case PID_PARTICIPANT_LEASE_DURATION:
                     {
                         ParameterTime_t* p = (ParameterTime_t*)(*it);
-                        this->m_leaseDuration = p->time;
+                        this->m_leaseDuration = p->time.to_duration_t();
                         break;
                     }
                 case PID_BUILTIN_ENDPOINT_SET:

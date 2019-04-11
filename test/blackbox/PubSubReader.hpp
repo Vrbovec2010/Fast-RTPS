@@ -42,7 +42,7 @@
 #include <gtest/gtest.h>
 
 using eprosima::fastrtps::rtps::IPLocator;
-using eprosima::fastrtps::UDPv4TransportDescriptor;
+using eprosima::fastrtps::rtps::UDPv4TransportDescriptor;
 
 template<class TypeSupport>
 class PubSubReader
@@ -62,7 +62,8 @@ class PubSubReader
 
                 ~ParticipantListener() {}
 
-                void onParticipantDiscovery(eprosima::fastrtps::Participant*, eprosima::fastrtps::ParticipantDiscoveryInfo&& info) override
+                void onParticipantDiscovery(eprosima::fastrtps::Participant*,
+                        eprosima::fastrtps::rtps::ParticipantDiscoveryInfo&& info) override
                 {
                     if(reader_.onDiscovery_!= nullptr)
                     {
@@ -535,7 +536,7 @@ class PubSubReader
             return *this;
         }
 
-        PubSubReader& lease_duration(eprosima::fastrtps::rtps::Duration_t lease_duration, eprosima::fastrtps::rtps::Duration_t announce_period)
+        PubSubReader& lease_duration(eprosima::fastrtps::Duration_t lease_duration, eprosima::fastrtps::Duration_t announce_period)
         {
             participant_attr_.rtps.builtin.leaseDuration = lease_duration;
             participant_attr_.rtps.builtin.leaseDuration_announcementperiod = announce_period;
@@ -609,7 +610,7 @@ class PubSubReader
             std::cout << "Reader gets discovery result..." << std::endl;
         }
 
-        void setOnDiscoveryFunction(std::function<bool(const eprosima::fastrtps::ParticipantDiscoveryInfo&)> f){
+        void setOnDiscoveryFunction(std::function<bool(const eprosima::fastrtps::rtps::ParticipantDiscoveryInfo&)> f){
             onDiscovery_ = f;
         }
 
@@ -722,7 +723,7 @@ class PubSubReader
         size_t number_samples_expected_;
         bool discovery_result_;
 
-        std::function<bool(const eprosima::fastrtps::ParticipantDiscoveryInfo& info)> onDiscovery_;
+        std::function<bool(const eprosima::fastrtps::rtps::ParticipantDiscoveryInfo& info)> onDiscovery_;
 
 #if HAVE_SECURITY
         std::mutex mutexAuthentication_;
